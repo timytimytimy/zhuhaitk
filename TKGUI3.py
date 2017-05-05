@@ -7,6 +7,9 @@ from matplotlib.figure import Figure
 
 import tkinter as tk
 
+import threading
+
+
 class Application(tk.Tk):
     '''
     文件夹选择程序
@@ -18,6 +21,7 @@ class Application(tk.Tk):
         self.wm_title("Embed matplotlib in tkinter")
         
         self.createWidgets()
+        self._drawing = False
 
     def createWidgets(self):
         '''界面'''
@@ -36,12 +40,11 @@ class Application(tk.Tk):
         
         #self.draw() # 绘图
 
-        
-    def draw(self):
+    def draw_task(self):
         '''绘图逻辑'''
-        n=0
-        b= True
-        while n<20 and b:
+        n = 0
+        b = True
+        while n < 20 and b and self._drawing:
             x = np.random.randint(0,50,size=100)
             y = np.random.randint(0,50,size=100)
         
@@ -52,9 +55,15 @@ class Application(tk.Tk):
             self.ax.scatter(x, y, s=5)  # 重新画
         
             self.canvas.show()
-            n=n+1
-            
-    
+            n = n + 1
+        
+    def draw(self):
+        self._drawing = True
+        t1 = threading.Thread(target=self.draw_task)
+        t1.start()
+
+    def stop_draw(self):
+        self._drawing = False
     
     def _quit(self):
         '''退出'''
@@ -69,3 +78,4 @@ if __name__ == '__main__':
     
     # 主消息循环:
     app.mainloop()
+
