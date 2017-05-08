@@ -18,7 +18,7 @@ class Application(tk.Tk):
     '''
     def __init__(self):
         '''初始化'''
-        super().__init__() # 有点相当于tk.Tk()
+        super(Application, self).__init__() # 有点相当于tk.Tk()
         self.wm_title("Embed matplotlib in tkinter")
         
         self.createWidgets()
