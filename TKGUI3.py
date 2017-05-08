@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import matplotlib
 matplotlib.use('TkAgg')
 
@@ -5,7 +6,7 @@ import numpy as np
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2TkAgg
 from matplotlib.figure import Figure
 
-import tkinter as tk
+import Tkinter as tk
 
 import threading
 
@@ -36,6 +37,7 @@ class Application(tk.Tk):
         footframe = tk.Frame(master=self).pack(side=tk.BOTTOM)
 
         tk.Button(master=footframe, text='重画', command=self.draw).pack(side=tk.BOTTOM)
+        tk.Button(master=footframe, text='暂停', command=self.stop_draw).pack(side=tk.BOTTOM)
         tk.Button(master=footframe, text='退出', command=self._quit).pack(side=tk.BOTTOM)
         
         #self.draw() # 绘图
@@ -43,8 +45,8 @@ class Application(tk.Tk):
     def draw_task(self):
         '''绘图逻辑'''
         n = 0
-        b = True
-        while n < 20 and b and self._drawing:
+        
+        while n < 100 and self._drawing:
             x = np.random.randint(0,50,size=100)
             y = np.random.randint(0,50,size=100)
         
@@ -67,9 +69,8 @@ class Application(tk.Tk):
     
     def _quit(self):
         '''退出'''
-        return False
-        #self.quit()     # 停止 mainloop
-        #self.destroy()  # 销毁所有部件
+        self.quit()     # 停止 mainloop
+        self.destroy()  # 销毁所有部件
 
         
 if __name__ == '__main__':
